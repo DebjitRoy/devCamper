@@ -9,7 +9,21 @@ const geoCoder = require("../utils/geocoder");
 // Following is preffered way of handling try catch in middleware.
 // But for clarity, using regurar try catch for all other APIs
 module.exports.getBootcamps = asyncHandler(async (req, res, next) => {
-  const bootcamps = await Bootcamp.find();
+  let queryStr = JSON.stringify(req.query);
+  // replaces gt with $gt, gte with $gte etc
+  // $gt, $lt etc are used by mongoose for Number data
+  queryStr = queryStr.replace(
+    /\b(gt|gte|lt|lte|in)\b/g,
+    (match) => `$${match}`
+  );
+  // query str to get all bootcamps with averageCost <=10000
+  // /api/v1/bootcamps?averageCost[lte]=10000
+
+  // Find By State:
+  // /api/v1/bootcamps?location.state=CA
+  //   console.log(queryStr);
+
+  const bootcamps = await Bootcamp.find(JSON.parse(queryStr));
   res
     .status(200)
     .json({ success: true, data: bootcamps, count: bootcamps.length });
