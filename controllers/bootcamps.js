@@ -6,6 +6,7 @@ const geoCoder = require("../utils/geocoder");
 // @desc     Get all Bootcamps
 // @route    GET /api/v1/bootcamps
 // @access   public
+
 // Following is preffered way of handling try catch in middleware.
 // But for clarity, using regurar try catch for all other APIs
 module.exports.getBootcamps = asyncHandler(async (req, res, next) => {
