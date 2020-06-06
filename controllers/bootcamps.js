@@ -9,7 +9,15 @@ const geoCoder = require("../utils/geocoder");
 // Following is preffered way of handling try catch in middleware.
 // But for clarity, using regurar try catch for all other APIs
 module.exports.getBootcamps = asyncHandler(async (req, res, next) => {
-  let queryStr = JSON.stringify(req.query);
+  const reqQuery = { ...req.query };
+
+  // Fields to exclude
+  const removeFields = ["select", "sort"];
+
+  removeFields.forEach((field) => delete reqQuery[field]);
+
+  let queryStr = JSON.stringify(reqQuery);
+  console.log(reqQuery);
   // replaces gt with $gt, gte with $gte etc
   // $gt, $lt etc are used by mongoose for Number data
   queryStr = queryStr.replace(
@@ -19,15 +27,33 @@ module.exports.getBootcamps = asyncHandler(async (req, res, next) => {
   // query str to get all bootcamps with averageCost <=10000
   // /api/v1/bootcamps?averageCost[lte]=10000
 
+  // query str to get all bootcamps with careers array includes some value
+  // /api/v1/bootcamps?careers[in]=Data Science
+
   // Find By State:
   // /api/v1/bootcamps?location.state=CA
   //   console.log(queryStr);
 
-  const bootcamps = await Bootcamp.find(JSON.parse(queryStr));
+  let query = Bootcamp.find(JSON.parse(queryStr));
+  // Select Fields
+  if (req.query.select) {
+    const fields = req.query.select.split(",").join(" ");
+    query = query.select(fields);
+  }
+
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(",").join(" ");
+    query = query.sort(sortBy);
+  } else {
+    query = query.sort("createdAt");
+  }
+
+  const bootcamps = await query;
   res
     .status(200)
     .json({ success: true, data: bootcamps, count: bootcamps.length });
 });
+
 // ====== same in try catch=======
 // module.exports.getBootcamps = async (req, res, next) => {
 //   try {
