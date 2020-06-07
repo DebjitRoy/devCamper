@@ -124,6 +124,7 @@ BootcampSchema.pre("save", async function (next) {
 // When deleting Bootcamp, delete all courses for that Bootcamp
 BootcampSchema.pre("remove", async function (next) {
   console.log(`Courses being removed for bootcamp ${this._id}`);
+  // we can access other models using this.model(model_name)
   await this.model("Course").deleteMany({ bootcamp: this._id }); // bootcamp is of type id in course model
   next();
 });
