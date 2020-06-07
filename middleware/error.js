@@ -7,7 +7,7 @@ const errorHandler = (err, req, res, next) => {
 
   // Bad Object Error
   if (err.name === "CastError") {
-    const message = `Bootcamp ID ${err.value} not found`;
+    const message = `ID ${err.value} not found`;
     error = new ErrorResponse(message, 404);
   }
   // Mongoose Duplicate key Error
