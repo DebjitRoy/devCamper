@@ -33,9 +33,9 @@ module.exports.getBootcamps = asyncHandler(async (req, res, next) => {
 
   // Find By State:
   // /api/v1/bootcamps?location.state=CA
-  //   console.log(queryStr);
+  //  Finding Resource
 
-  let query = Bootcamp.find(JSON.parse(queryStr));
+  let query = Bootcamp.find(JSON.parse(queryStr)).populate("courses");
 
   // Select Fields
   // /api/v1/bootcamps?select=name,description

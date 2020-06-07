@@ -17,3 +17,7 @@ Push an existing repository…
 $ git remote add origin git@github.com:username/new_repo
 $ git push -u origin master
 
+
+Deploying Node:
+https://gist.github.com/bradtraversy/cd90d1ed3c462fe3bddd11bf8953a896
+more info on .md file 
