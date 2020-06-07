@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const morgan = require("morgan"); // Logger MW
 const colors = require("colors");
 const fileupload = require("express-fileupload");
+const path = require("path");
 
 const errorHandler = require("./middleware/error");
 
@@ -38,6 +39,9 @@ if (process.env.NODE_ENV === "development") {
 
 // File uploading
 app.use(fileupload());
+
+// Set Static folder for image to be accessed from browswer
+app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routers
 app.use("/api/v1/bootcamps", bootcampRoute);
