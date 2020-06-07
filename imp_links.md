@@ -45,6 +45,7 @@
 - JWT - https://jwt.io/
 - Security Packages Article - https://hackernoon.com/express-js-important-npm-packages-related-to-security-2393466e18d5
 - NoSQL Injection Article - https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html
+- Stock images - https://www.pexels.com/
 
 ## Express Docs
 
